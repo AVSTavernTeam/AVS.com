@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AVS Clan Website</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: url('AVSprofile.jpg') center/cover fixed;
+        }
+
+        .header-image {
+            width: 100%;
+            height: 100vh;
+            filter: blur(5px);
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
+        }
+
+        h1 {
+            margin-bottom: 20px;
+            color: white;
+        }
+
+        .members-button,
+        .infos-button,
+        .discord-infos-button,
+        .discussion-button,
+        .delete-discussion-button,
+        .delete-profile-button {
+            background-color: #8aa123;
+            color: white;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin-top: 20px;
+            cursor: pointer;
+            border-radius: 5px;
+            margin-right: 10px;
+        }
+
+        .members-section,
+        .infos-section,
+        .discord-infos-section,
+        .discussion-section {
+            display: none;
+            color: white;
+        }
+
+        .discussion-message em {
+            font-weight: bold;
+            margin-right: 5px;
+        }
+
+        .reply-form-container {
+            margin-top: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>
+        AVS TavernMC Gang INFO SITE <a href="https://discord.gg/UNqWeRwDja">The Discord</a> (CLICK)
+    </h1>
+
+    <button class="members-button" onclick="toggleSection('members')">Show Members</button>
+    <button class="infos-button" onclick="toggleSection('infos')">Infos</button>
+    <button class="discord-infos-button" onclick="toggleSection('discord-infos')">Discord Infos</button>
+    <button class="discussion-button" onclick="toggleSection('discussion')">Discussion</button>
+
+    <div class="members-section">
+        <h2>MEMBERS:</h2>
+        <ul>
+            <li>SoleCloth743779 [Owner]</li>
+            <li>.XDNATION8674 [Grinder]</li>
+            <h3>STAFF MEMBERS:</h3>
+            <li> SoleCloth743779 [Manager]</li>
+            <li>ObvNotWill [Crew-Helper]</li>
+            <li>MORE PEOPLE COMING SOON!</li>
+            <li>What do roles Do?
+                Grinder: Grinds The Materials For The Members / Builders
+                PvPer: You're PvPing in Envoy And getting the best loot possible
+                Builder: You help Our Builders building The Base With the Materials
+                That the Grinders Grinded.
+                Helper: If you have questions or anything Go To The helper, he will Help you
+                if he doesn't go to the Moderator Or Admin Manager Works too if they don't know
+                Moderator: The Same as Helper but with More Permissions Then the Helper ( View Application Submissions)
+                and Decide who gets kicked and who doesn't 
+                Admin: You're The highest STAFF role you can get, It Manages Some things and helps the manager and and watches that the Crew has stability
+                and Is Compatable
+                Manager: The Manager Is there To manage EVERYTHING, Applications, Support
+                Owner: The Owner is the Owner and Is HIGHER Then Everyone.
+            </li>
+        </ul>
+    </div>
+
+    <div class="infos-section">
+        <p>
+            AVS, A TavernMC Clan Created in The start of October - end of September. As SoleCloth743779 Created it, he
+            didn't think anything until applicants started coming in. The AVS now is a great team with nice members and
+            great compatibility. The AVS (Advanced Supremes) is one of the best TavernMC teams you can join. We may not
+            seem strong, but give us a chance, and we will all like to see YOU welcome!
+        </p>
+    </div>
+
+    <div class="discord-infos-section">
+        <h2>DISCORD INFOS:</h2>
+        <ul>
+            <li>The Application Channel: If you want to apply for the AVS, go to the Application channel and select
+                "Application For the AVS." After you do that, the bot will DM you. Message the bot your responses. In the
+                end, a staff member will look at it. Write in full sentences and write long due to the staff being VERY
+                strict. You have a 3-day cooldown on that.</li>
+            <li>Rules: The rules are all listed in the Rules channel. Those who don't follow them will instantly be
+                punished.</li>
+            <li>Abuse: If you abuse and grief our property as a team member, we will kick you off, and it will go to the
+                TavernMC Staff Team.</li>
+        </ul>
+    </div>
+
+    <div class="discussion-section">
+        <h2>Discussion</h2>
+        <p>
+            Welcome to our discussion board! Feel free to share your thoughts and engage in discussions about AVS
+            TavernMC Gang. Let the community know about your experiences!
+        </p>
+
+        <form id="profileForm">
+            <label for="minecraftUsername">Minecraft Username:</label><br>
+            <input type="text" id="minecraftUsername" name="minecraftUsername"><br>
+
+            <label for="bio">Bio:</label><br>
+            <textarea id="bio" name="bio" rows="4" cols="50"></textarea><br>
+
+            <input type="button" value="Submit Profile" onclick="submitProfile()">
+        </form>
+
+        <div id="profileDisplay"></div>
+
+        <button class="delete-profile-button" onclick="deleteProfile()">Delete Profile</button>
+
+        <hr>
+
+        <form id="discussionForm">
+            <label for="discussionMessage">Write a discussion message:</label><br>
+            <textarea id="discussionMessage" name="discussionMessage" rows="4" cols="50"></textarea><br>
+            <input type="button" value="Submit Discussion Message" onclick="submitDiscussionMessage()">
+        </form>
+
+        <div id="discussionDisplay"></div>
+
+        <button class="delete-discussion-button" onclick="deleteDiscussionMessage()">Delete Discussion Message</button>
+    </div>
+
+    <script>
+        function toggleSection(section) {
+            var membersSection = document.querySelector('.members-section');
+            var infosSection = document.querySelector('.infos-section');
+            var discordInfosSection = document.querySelector('.discord-infos-section');
+            var discussionSection = document.querySelector('.discussion-section');
+
+            if (section === 'members') {
+                membersSection.style.display = (membersSection.style.display === 'none' || membersSection.style.display === '') ? 'block' : 'none';
+                infosSection.style.display = 'none';
+                discordInfosSection.style.display = 'none';
+                discussionSection.style.display = 'none';
+            } else if (section === 'infos') {
+                infosSection.style.display = (infosSection.style.display === 'none' || infosSection.style.display === '') ? 'block' : 'none';
+                membersSection.style.display = 'none';
+                discordInfosSection.style.display = 'none';
+                discussionSection.style.display = 'none';
+            } else if (section === 'discord-infos') {
+                discordInfosSection.style.display = (discordInfosSection.style.display === 'none' || discordInfosSection.style.display === '') ? 'block' : 'none';
+                membersSection.style.display = 'none';
+                infosSection.style.display = 'none';
+                discussionSection.style.display = 'none';
+            } else if (section === 'discussion') {
+                discussionSection.style.display = (discussionSection.style.display === 'none' || discussionSection.style.display === '') ? 'block' : 'none';
+                membersSection.style.display = 'none';
+                infosSection.style.display = 'none';
+                discordInfosSection.style.display = 'none';
+            }
+        }
+
+        // Function to submit a profile
+function submitProfile() {
+    var minecraftUsername = document.getElementById('minecraftUsername').value;
+    var bio = document.getElementById('bio').value;
+    var profileDisplay = document.getElementById('profileDisplay');
+
+    // Check if the user has already submitted a profile
+    if (localStorage.getItem('hasSubmittedProfile')) {
+        alert('You can only submit one profile.');
+        return;
+    }
+
+    var newProfile = document.createElement('div');
+    newProfile.innerHTML = `<p>[${minecraftUsername}]</p><p><strong>Bio:</strong> ${bio}</p>`;
+    profileDisplay.appendChild(newProfile);
+
+    // Set a flag in local storage to indicate that the user has submitted a profile
+    localStorage.setItem('hasSubmittedProfile', true);
+    // Set the submitted profile information
+    localStorage.setItem('submittedProfileUsername', minecraftUsername);
+
+    document.getElementById('profileForm').reset(); // Reset the form after submission
+    saveDataToLocalStorage();
+}
+
+// Function to load data from local storage
+function loadDataFromLocalStorage() {
+    var profiles = localStorage.getItem('savedProfiles');
+    var discussionMessages = localStorage.getItem('savedDiscussionMessages');
+    var submittedProfileUsername = localStorage.getItem('submittedProfileUsername');
+
+    if (profiles) {
+        document.getElementById('profileDisplay').innerHTML = profiles;
+    }
+
+    if (discussionMessages) {
+        document.getElementById('discussionDisplay').innerHTML = discussionMessages;
+    }
+
+    // Set the submitted profile information if available
+    if (submittedProfileUsername) {
+        localStorage.setItem('submittedProfileUsername', submittedProfileUsername);
+    }
+}
+
+       // Function to submit a discussion message
+function submitDiscussionMessage() {
+    var minecraftUsername = localStorage.getItem('submittedProfileUsername') || 'Anonymous';
+    var discussionMessage = document.getElementById('discussionMessage').value;
+    var discussionDisplay = document.getElementById('discussionDisplay');
+
+    if (localStorage.getItem('hasSubmittedDiscussionMessage')) {
+        alert('You can only submit one discussion message.');
+        return;
+    }
+
+    var newDiscussionMessage = document.createElement('div');
+    newDiscussionMessage.className = 'discussion-message';
+    newDiscussionMessage.innerHTML = `<p><em>[${minecraftUsername}]</em>: ${discussionMessage}</p>`;
+    discussionDisplay.appendChild(newDiscussionMessage);
+
+    localStorage.setItem('hasSubmittedDiscussionMessage', true);
+
+    document.getElementById('discussionForm').reset();
+    saveDataToLocalStorage();
+}
+
+
+        function deleteDiscussionMessage() {
+            var discussionDisplay = document.getElementById('discussionDisplay');
+            discussionDisplay.innerHTML = '';
+            localStorage.removeItem('hasSubmittedDiscussionMessage');
+        }
+
+        function deleteProfile() {
+            var profileDisplay = document.getElementById('profileDisplay');
+            profileDisplay.innerHTML = '';
+            localStorage.removeItem('hasSubmittedProfile');
+        }
+
+        function saveDataToLocalStorage() {
+            var profiles = document.getElementById('profileDisplay').innerHTML;
+            var discussionMessages = document.getElementById('discussionDisplay').innerHTML;
+
+            localStorage.setItem('savedProfiles', profiles);
+            localStorage.setItem('savedDiscussionMessages', discussionMessages);
+        }
+
+        function loadDataFromLocalStorage() {
+            var profiles = localStorage.getItem('savedProfiles');
+            var discussionMessages = localStorage.getItem('savedDiscussionMessages');
+
+            if (profiles) {
+                document.getElementById('profileDisplay').innerHTML = profiles;
+            }
+
+            if (discussionMessages) {
+                document.getElementById('discussionDisplay').innerHTML = discussionMessages;
+            }
+        }
+
+        window.onload = function () {
+            loadDataFromLocalStorage();
+        };
+
+        function toggleReplyForm(element) {
+            var discussionDisplay = document.getElementById('discussionDisplay');
+            var replyFormContainer = document.createElement('div');
+            replyFormContainer.className = 'reply-form-container';
+
+            var replyForm = document.createElement('form');
+            var replyTextarea = document.createElement('textarea');
+            replyTextarea.name = 'replyMessage';
+            replyTextarea.rows = '4';
+            replyTextarea.cols = '50';
+            replyForm.appendChild(replyTextarea);
+
+            var submitButton = document.createElement('input');
+            submitButton.type = 'button';
+            submitButton.value = 'Submit Reply';
+            submitButton.onclick = function () {
+                submitReply(element.innerText, replyTextarea.value);
+            };
+            replyForm.appendChild(submitButton);
+
+            replyFormContainer.appendChild(replyForm);
+            discussionDisplay.insertBefore(replyFormContainer, element.nextSibling);
+        }
+
+        function submitReply(originalMessage, replyMessage) {
+            var discussionDisplay = document.getElementById('discussionDisplay');
+            var minecraftUsername = originalMessage.substring(1, originalMessage.indexOf(']'));
+            var replyDisplay = document.createElement('div');
+            replyDisplay.innerHTML = `<p><em>[${minecraftUsername}]</em></p><p><strong>${minecraftUsername} replied:</strong> ${replyMessage}</p>`;
+            discussionDisplay.appendChild(replyDisplay);
+
+            var replyFormContainers = document.getElementsByClassName('reply-form-container');
+            for (var i = 0; i < replyFormContainers.length; i++) {
+                replyFormContainers[i].remove();
+            }
+
+            saveDataToLocalStorage();
+        }
+    </script>
+</body>
+
+</html>
